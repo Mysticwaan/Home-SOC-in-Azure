@@ -115,15 +115,15 @@ SecurityEvent
 | where EventID == 4625
 | summarize Count = count() by Account
 ```
-![image](https://github.com/user-attachments/assets/9be4f14d-8969-4ca7-967f-99a18367c106)
+![image](https://github.com/user-attachments/assets/6be99ecb-e6be-4ec5-b3c7-2d6a9d861e1b)
+
+![image](https://github.com/user-attachments/assets/477f4a82-d193-4fd4-bcef-81155d066b4f)
 
 ---
 
 ## 🔍 : Enriching Logs with Geolocation + Sentinel Map
 
-![image](https://github.com/user-attachments/assets/6be99ecb-e6be-4ec5-b3c7-2d6a9d861e1b)
-
-![image](https://github.com/user-attachments/assets/477f4a82-d193-4fd4-bcef-81155d066b4f)
+![image](https://github.com/user-attachments/assets/9be4f14d-8969-4ca7-967f-99a18367c106)
 
 ## 🧠 Lessons Learned
 
