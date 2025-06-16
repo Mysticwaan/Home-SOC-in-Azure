@@ -237,26 +237,6 @@ SecurityEvent
 
 ---
 
-## 🧯 Cleanup Resources
-
-To avoid Azure charges:
-
-1. Delete your VM and related disks
-2. Remove the Log Analytics workspace
-3. Delete the resource group (`HoneypotRG`)
-4. Remove the Sentinel instance
-
----
-
-## 📚 References
-
-- [Microsoft Sentinel Docs](https://learn.microsoft.com/en-us/azure/sentinel/)
-- [KQL Tutorial](https://learn.microsoft.com/en-us/azure/data-explorer/kusto/query/)
-- [IP Geolocation Data](https://db-ip.com/db/download/ip-to-city-lite)
-- [KC7 Cyber (Free KQL Labs)](https://www.kc7cyber.com)
-
----
-
 ## ⚠️ Disclaimer
 
 This lab is for **educational and research purposes only**. Never expose production systems to the internet without protection. Use test credentials only, and regularly audit your Azure usage and billing.
