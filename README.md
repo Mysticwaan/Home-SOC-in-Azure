@@ -92,14 +92,6 @@ WindowsEvents
 | project TimeGenerated, Computer, AttackerIp = cityname, countryname, latitude, longitude
 ![image](https://github.com/user-attachments/assets/f51a8c3e-8cac-408c-ac9a-49a7fcbe432c)
 
-![image](https://github.com/user-attachments/assets/6935df96-e8a7-42f6-925b-74e082b61438)
-
-![image](https://github.com/user-attachments/assets/9be4f14d-8969-4ca7-967f-99a18367c106)
-
-![image](https://github.com/user-attachments/assets/6be99ecb-e6be-4ec5-b3c7-2d6a9d861e1b)
-
-![image](https://github.com/user-attachments/assets/477f4a82-d193-4fd4-bcef-81155d066b4f)
-
 ---
 
 ### 🧪 Step 3: Test Logging in Log Analytics
@@ -112,6 +104,7 @@ After a few minutes of uptime, try RDP brute-forcing the machine yourself or wai
 SecurityEvent
 | where EventID == 4625
 ```
+![image](https://github.com/user-attachments/assets/6935df96-e8a7-42f6-925b-74e082b61438)
 
 This shows failed login attempts. Look for entries with `EventID 4625`, which indicate failed logins.
 
@@ -122,111 +115,15 @@ SecurityEvent
 | where EventID == 4625
 | summarize Count = count() by Account
 ```
+![image](https://github.com/user-attachments/assets/9be4f14d-8969-4ca7-967f-99a18367c106)
 
 ---
 
-## 🔍 Part 2: Enriching Logs with Geolocation + Sentinel Map
+## 🔍 : Enriching Logs with Geolocation + Sentinel Map
 
-### 🌐 Step 1: Connect to Microsoft Sentinel
+![image](https://github.com/user-attachments/assets/6be99ecb-e6be-4ec5-b3c7-2d6a9d861e1b)
 
-1. Go to "Microsoft Sentinel"
-2. Create a Sentinel instance and attach it to your existing Log Analytics Workspace
-3. Confirm that `SecurityEvent` logs appear in Sentinel
-
----
-
-### 🗺️ Step 2: Add IP Geolocation Watchlist
-
-1. **Download or create a geolocation CSV** with these columns:
-   - `network`, `country_name`, `city_name`, `latitude`, `longitude`
-
-2. **Create a Watchlist in Sentinel**
-   - Go to Sentinel → "Configuration" → "Watchlist"
-   - Name: `go`, Alias: `go`, Search key: `network`
-   - Upload your CSV file
-
-3. **Check the watchlist is working:**
-
-```kql
-_GetWatchlist('go')
-```
-
----
-
-### 🔁 Step 3: Enrich Security Logs with Geolocation
-
-```kql
-SecurityEvent
-| where EventID == 4625
-| extend AttackerIP = IPAddress
-| join kind=leftouter (
-    _GetWatchlist('go')
-) on $left.AttackerIP == $right.network
-| project TimeGenerated, Computer, AttackerIP, country_name, city_name, latitude, longitude
-```
-
----
-
-### 📊 Step 4: Visualize Attacks on a World Map
-
-1. Go to Microsoft Sentinel → "Workbooks"
-2. Create a new workbook
-3. In the Advanced Editor, paste this (replace with your enriched query):
-
-```kql
-SecurityEvent
-| where EventID == 4625
-| extend AttackerIP = IPAddress
-| join kind=leftouter (
-    _GetWatchlist('go')
-) on $left.AttackerIP == $right.network
-| summarize Count = count() by country_name, city_name, latitude, longitude
-```
-
-4. Click the **Visualize** tab
-   - Choose **Map**
-   - Configure:
-     - Latitude: `latitude`
-     - Longitude: `longitude`
-     - Size: `Count`
-     - Tooltip: `country_name`, `city_name`
-
-5. Save the workbook as `Windows VM Attack Map`
-
----
-
-## 🧪 Example KQL Queries
-
-**Last 10 login attempts:**
-
-```kql
-SecurityEvent
-| where EventID == 4625
-| top 10 by TimeGenerated desc
-```
-
-**Top attacking IPs:**
-
-```kql
-SecurityEvent
-| where EventID == 4625
-| summarize Count = count() by IPAddress
-| top 10 by Count desc
-```
-
-**Unique attacker locations:**
-
-```kql
-SecurityEvent
-| where EventID == 4625
-| extend AttackerIP = IPAddress
-| join kind=leftouter (
-    _GetWatchlist('go')
-) on $left.AttackerIP == $right.network
-| summarize Count = count() by country_name, city_name
-```
-
----
+![image](https://github.com/user-attachments/assets/477f4a82-d193-4fd4-bcef-81155d066b4f)
 
 ## 🧠 Lessons Learned
 
@@ -234,11 +131,5 @@ SecurityEvent
 - **Microsoft Sentinel** can serve as a full SIEM solution with log ingestion, enrichment, alerting, and visualization.
 - **KQL (Kusto Query Language)** is powerful for filtering and analyzing security data.
 - **Geolocation enrichment** provides critical insight into attacker origins and behaviors.
-
----
-
-## ⚠️ Disclaimer
-
-This lab is for **educational and research purposes only**. Never expose production systems to the internet without protection. Use test credentials only, and regularly audit your Azure usage and billing.
 
 ---
