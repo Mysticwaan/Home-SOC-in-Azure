@@ -1,5 +1,7 @@
 # 🛡️ Home SOC in Azure: Threat Detection with Microsoft Sentinel
 
+This project demonstrates the deployment of a **deliberately vulnerable Windows virtual machine** in Microsoft Azure for the purpose of **observing real-world brute-force attacks**. The VM sends logs to Microsoft Sentinel via Log Analytics, and login failure data is enriched with geolocation information to visualize the attack sources on a global map.
+
 ![image](https://github.com/user-attachments/assets/ff2c1c0e-e3ff-4635-87d0-ef0a4d7273ef)
 
 ---
@@ -122,11 +124,5 @@ SecurityEvent
 
 ![image](https://github.com/user-attachments/assets/9be4f14d-8969-4ca7-967f-99a18367c106)
 
-## 🧠 Lessons Learned
-
-- **Honeypot VMs** are quickly scanned and attacked by global bots once exposed to the internet.
-- **Microsoft Sentinel** can serve as a full SIEM solution with log ingestion, enrichment, alerting, and visualization.
-- **KQL (Kusto Query Language)** is powerful for filtering and analyzing security data.
-- **Geolocation enrichment** provides critical insight into attacker origins and behaviors.
 
 ---
